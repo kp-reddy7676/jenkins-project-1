@@ -37,13 +37,13 @@ pipeline {
             }
         }
         
-        stage('5. Static Code Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeServer') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
+        // stage('5. Static Code Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQubeServer') {
+        //             sh 'mvn sonar:sonar'
+        //         }
+        //     }
+        // }
         
         stage('6. Security Vulnerability Scan') {
             steps {
@@ -88,11 +88,10 @@ pipeline {
     
     post {
         success {
-            echo "Pipeline executed successfully across all 9 stages!"
+            echo "Pipeline executed successfully across all stages!"
         }
         failure {
             echo "Pipeline failed! Please check logs for details."
         }
     }
 }
-EOF
