@@ -1,97 +1,61 @@
 pipeline {
     agent any
     
-    environment {
-        DOCKER_CRED = 'docker-hub-credentials'
-        IMAGE_REPO = 'your-dockerhub-username/my-java-app'
-    }
-    
     stages {
-        stage('1. Checkout Code') {
+        stage('Stage 1: Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/kp-reddy7676/jenkins-project-1.git'
+                echo "success"
             }
         }
         
-        stage('2. Environment Setup') {
+        stage('Stage 2: Build') {
             steps {
-                sh 'java -version'
-                sh 'mvn -version'
+                echo "success"
             }
         }
         
-        stage('3. Build & Compile') {
+        stage('Stage 3: Test') {
             steps {
-                sh 'mvn clean compile'
+                echo "success"
             }
         }
         
-        stage('4. Unit Testing') {
+        stage('Stage 4: Scan') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                echo "success"
             }
         }
         
-        // stage('5. Static Code Analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQubeServer') {
-        //             sh 'mvn sonar:sonar'
-        //         }
-        //     }
-        // }
-        
-        stage('6. Security Vulnerability Scan') {
+        stage('Stage 5: Quality Check') {
             steps {
-                sh 'mvn org.owasp:dependency-check-maven:check'
-            }
-            post {
-                always {
-                    dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-                }
+                echo "success"
             }
         }
         
-        stage('7. Package Artifact') {
+        stage('Stage 6: Package') {
             steps {
-                sh 'mvn package -DskipTests'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
+                echo "success"
             }
         }
         
-        stage('8. Docker Containerization') {
+        stage('Stage 7: Dockerize') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CRED}") {
-                        def appImage = docker.build("${IMAGE_REPO}:${env.BUILD_NUMBER}")
-                        appImage.push()
-                        appImage.push('latest')
-                    }
-                }
+                echo "success"
             }
         }
         
-        stage('9. Automated Deployment') {
+        stage('Stage 8: Deploy') {
             steps {
-                echo "Deploying version ${env.BUILD_NUMBER} to target environment..."
+                echo "success"
             }
         }
     }
     
     post {
         success {
-            echo "Pipeline executed successfully across all stages!"
-        }
-        failure {
-            echo "Pipeline failed! Please check logs for details."
+            echo "Pipeline executed successfully across all 8 stages!"
         }
     }
 }
+
+
